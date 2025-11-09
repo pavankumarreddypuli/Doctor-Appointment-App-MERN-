@@ -9,13 +9,22 @@ const Login = () => {
 
   const {backendUrl,token,setToken} = useContext(AppContext)
   const navigate = useNavigate()
-
+ const[adminLogin,setAdminLogin]=useState(false);
   const [state, setState] = useState('Sign Up')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
-
+  
+  const handleAdminLogin = () => {
+    setAdminLogin(true)
+   
+    const adminUrl =import.meta.env.VITE_ADMIN_LOGIN_URL;
+   console.log(adminUrl);
+   
+    window.location.replace(adminUrl)
+  };
+  
   const onSubmitHandler = async (event) => {
     event.preventDefault()
 
@@ -73,13 +82,23 @@ const Login = () => {
           <input className='border border-zinc-300 rounded w-full p-2 mt-1' type="password" onChange={(e) => setPassword(e.target.value)} value={password} required />
         </div>
         <button type='submit' className='bg-primary text-white w-full py-2 rounded-md text-base'>{state === 'Sign Up' ? "Create Account" : "Login"}</button>
+        
         {
           state === "Sign Up"
             ? <p>Already have an account? <span onClick={() => setState('Login')} className='text-primary underline cursor-pointer'>Login here</span></p>
             : <p>Create an new account? <span onClick={() => setState('Sign Up')} className='text-primary underline cursor-pointer'>click here</span></p>
         }
+        
+        <p className='p-0'> Want to login as Admin/Doctor ? <button
+        onClick={handleAdminLogin}
+        className=' text-blue-600 underline hover:text-blue-800 text-sm'
+      >
+        Login here
+      </button></p>
       </div>
     </form>
+    
+     
 
   )
 }
